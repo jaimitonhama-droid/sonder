@@ -116,6 +116,8 @@ export default function NowPlayingBar({
     </View>
   );
 }
+const { height: H } = Dimensions.get('window');
+const MAX_H = Platform.OS === 'web' ? Math.min(600, H * 0.5) : 500;
 
 const st = StyleSheet.create({
   wrapper: {
@@ -126,7 +128,7 @@ const st = StyleSheet.create({
     width: Platform.OS === 'web' ? '100%' : W,
     height: Platform.OS === 'web' ? undefined : W * (9 / 16),
     aspectRatio: Platform.OS === 'web' ? 16 / 9 : undefined,
-    maxHeight: 600,
+    maxHeight: MAX_H,
     maxWidth: Platform.OS === 'web' ? 1066 : undefined,
     alignSelf: 'center',
     overflow: 'hidden',
@@ -151,7 +153,7 @@ const st = StyleSheet.create({
     width: Platform.OS === 'web' ? '100%' : W,
     height: Platform.OS === 'web' ? undefined : W * (9 / 16),
     aspectRatio: Platform.OS === 'web' ? 16 / 9 : undefined,
-    maxHeight: 600,
+    maxHeight: MAX_H,
     maxWidth: Platform.OS === 'web' ? 1066 : undefined,
     backgroundColor: '#000',
     overflow: 'hidden',
