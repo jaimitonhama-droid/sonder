@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "aura-app",
-    "slug": "aura-app",
+    "name": "Sonder",
+    "slug": "sonder-app",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -18,7 +18,16 @@
       }
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/favicon.png",
+      "name": "Sonder",
+      "shortName": "Sonder",
+      "description": "Seu app de entretenimento e música",
+      "themeColor": "#000000",
+      "backgroundColor": "#000000",
+      "display": "standalone",
+      "orientation": "portrait",
+      "scope": "/",
+      "startUrl": "/"
     }
   }
 }

@@ -3,14 +3,14 @@ import { getDatabase } from 'firebase/database'; // Se fores usar o Realtime Dat
 import { getFirestore } from 'firebase/firestore'; // Se fores usar o Firestore
 
 const firebaseConfig = {
-  apiKey: "AIzaSyBq22BlwDCEO7fDqbEmFMbXznKqQF2BV14",
-  authDomain: "carla-v5.firebaseapp.com",
-  databaseURL: "https://carla-v5-default-rtdb.firebaseio.com",
-  projectId: "carla-v5",
-  storageBucket: "carla-v5.firebasestorage.app",
-  messagingSenderId: "118871134461",
-  appId: "1:118871134461:web:d591802639fdf38b7aae94",
-  measurementId: "G-DCJ2HHQCPE"
+  apiKey: process.env.EXPO_PUBLIC_FIREBASE_API_KEY,
+  authDomain: process.env.EXPO_PUBLIC_FIREBASE_AUTH_DOMAIN,
+  databaseURL: process.env.EXPO_PUBLIC_FIREBASE_DATABASE_URL,
+  projectId: process.env.EXPO_PUBLIC_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.EXPO_PUBLIC_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.EXPO_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.EXPO_PUBLIC_FIREBASE_APP_ID,
+  measurementId: process.env.EXPO_PUBLIC_FIREBASE_MEASUREMENT_ID
 };
 
 // Inicializa a aplicação
