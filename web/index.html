@@ -23,20 +23,15 @@
     <link rel="shortcut icon" href="/assets/favicon.png" />
 
     <style>
-      @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@900&display=swap');
-
       * { box-sizing: border-box; margin: 0; padding: 0; }
 
       html, body {
         height: 100%;
         background: #08080F;
-        font-family: 'Outfit', sans-serif;
         overscroll-behavior: none;
       }
 
-      #root {
-        height: 100%;
-      }
+      #root { height: 100%; }
 
       /* ── Splash Screen ── */
       #splash {
@@ -47,9 +42,9 @@
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        gap: 24px;
+        gap: 28px;
         z-index: 9999;
-        transition: opacity 0.5s ease;
+        transition: opacity 0.4s ease;
       }
 
       #splash.hidden {
@@ -57,90 +52,75 @@
         pointer-events: none;
       }
 
+      /* Logo sem animação */
       #splash img {
-        width: 130px;
-        height: 130px;
+        width: 120px;
+        height: 120px;
         object-fit: contain;
-        border-radius: 28px;
-        animation: pulse 2s infinite ease-in-out;
+        border-radius: 24px;
       }
 
+      /* Texto igual ao header do app */
       #splash .brand {
-        font-size: 42px;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        font-size: 22px;
         font-weight: 900;
-        letter-spacing: 8px;
+        letter-spacing: 4px;
         text-transform: uppercase;
       }
-
-      #splash .brand .s { color: #ffffff; }
+      #splash .brand .s    { color: #ffffff; }
       #splash .brand .onder { color: #E8192C; }
 
-      #splash .loader {
-        width: 40px;
-        height: 4px;
-        background: rgba(255,255,255,0.1);
-        border-radius: 2px;
-        overflow: hidden;
-        position: relative;
+      /* Spinner simples */
+      #splash .spinner {
+        width: 32px;
+        height: 32px;
+        border: 3px solid rgba(255,255,255,0.12);
+        border-top-color: #E8192C;
+        border-radius: 50%;
+        animation: spin 0.9s linear infinite;
       }
 
-      #splash .loader::after {
-        content: '';
-        position: absolute;
-        inset: 0;
-        background: #E8192C;
-        border-radius: 2px;
-        animation: loading 1.6s ease-in-out infinite;
-      }
-
-      @keyframes pulse {
-        0%, 100% { transform: scale(1); opacity: 1; }
-        50% { transform: scale(1.04); opacity: 0.9; }
-      }
-
-      @keyframes loading {
-        0% { transform: translateX(-100%); }
-        50% { transform: translateX(0); }
-        100% { transform: translateX(100%); }
+      @keyframes spin {
+        to { transform: rotate(360deg); }
       }
     </style>
   </head>
 
   <body>
-    <!-- Splash Screen visível enquanto a app carrega -->
+    <!-- Splash Screen -->
     <div id="splash">
-      <img src="/assets/icon.png" alt="Sonder Logo" />
+      <img src="/assets/icon.png" alt="Sonder" />
       <div class="brand">
         <span class="s">S</span><span class="onder">onder</span>
       </div>
-      <div class="loader"></div>
+      <div class="spinner"></div>
     </div>
 
     <div id="root"></div>
 
     <script>
-      // Esconde o splash assim que o React renderiza
       window.__hideSplash = function () {
-        const s = document.getElementById('splash');
+        var s = document.getElementById('splash');
         if (s) {
           s.classList.add('hidden');
-          setTimeout(() => s.remove(), 600);
+          setTimeout(function () { s.remove(); }, 500);
         }
       };
-      // Fallback: esconde automaticamente após 4 segundos
+      // Fallback: esconde após 4s mesmo que o React não avise
       setTimeout(window.__hideSplash, 4000);
     </script>
 
-    <!-- Registo do Service Worker PWA -->
+    <!-- Service Worker -->
     <script>
       if ('serviceWorker' in navigator) {
         window.addEventListener('load', function () {
           navigator.serviceWorker.register('/service-worker.js')
             .then(function (reg) {
-              console.log('[Sonder PWA] Service Worker registado:', reg.scope);
+              console.log('[Sonder PWA] SW registado:', reg.scope);
             })
             .catch(function (err) {
-              console.warn('[Sonder PWA] Erro ao registar SW:', err);
+              console.warn('[Sonder PWA] SW erro:', err);
             });
         });
       }
