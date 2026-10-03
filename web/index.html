@@ -3,14 +3,14 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-    <meta name="theme-color" content="#E8192C" />
+    <meta name="theme-color" content="#08080F" />
     <meta name="description" content="Sonder – O seu app de música, vídeos e shorts em tempo real." />
     <meta name="mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <meta name="apple-mobile-web-app-title" content="Sonder" />
 
-    <!-- Open Graph / Social -->
+    <!-- Open Graph -->
     <meta property="og:type" content="website" />
     <meta property="og:title" content="Sonder – Música & Entretenimento" />
     <meta property="og:description" content="O seu app de música, vídeos e shorts em tempo real." />
@@ -19,19 +19,117 @@
 
     <!-- PWA Manifest -->
     <link rel="manifest" href="/manifest.json" />
-
-    <!-- Apple Touch Icon -->
     <link rel="apple-touch-icon" href="/assets/icon.png" />
     <link rel="shortcut icon" href="/assets/favicon.png" />
 
     <style>
-      * { box-sizing: border-box; }
-      html, body, #root { margin: 0; padding: 0; height: 100%; background: #000; }
-      body { overscroll-behavior: none; }
+      @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@900&display=swap');
+
+      * { box-sizing: border-box; margin: 0; padding: 0; }
+
+      html, body {
+        height: 100%;
+        background: #08080F;
+        font-family: 'Outfit', sans-serif;
+        overscroll-behavior: none;
+      }
+
+      #root {
+        height: 100%;
+      }
+
+      /* ── Splash Screen ── */
+      #splash {
+        position: fixed;
+        inset: 0;
+        background: #08080F;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 24px;
+        z-index: 9999;
+        transition: opacity 0.5s ease;
+      }
+
+      #splash.hidden {
+        opacity: 0;
+        pointer-events: none;
+      }
+
+      #splash img {
+        width: 130px;
+        height: 130px;
+        object-fit: contain;
+        border-radius: 28px;
+        animation: pulse 2s infinite ease-in-out;
+      }
+
+      #splash .brand {
+        font-size: 42px;
+        font-weight: 900;
+        letter-spacing: 8px;
+        text-transform: uppercase;
+      }
+
+      #splash .brand .s { color: #ffffff; }
+      #splash .brand .onder { color: #E8192C; }
+
+      #splash .loader {
+        width: 40px;
+        height: 4px;
+        background: rgba(255,255,255,0.1);
+        border-radius: 2px;
+        overflow: hidden;
+        position: relative;
+      }
+
+      #splash .loader::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: #E8192C;
+        border-radius: 2px;
+        animation: loading 1.6s ease-in-out infinite;
+      }
+
+      @keyframes pulse {
+        0%, 100% { transform: scale(1); opacity: 1; }
+        50% { transform: scale(1.04); opacity: 0.9; }
+      }
+
+      @keyframes loading {
+        0% { transform: translateX(-100%); }
+        50% { transform: translateX(0); }
+        100% { transform: translateX(100%); }
+      }
     </style>
   </head>
+
   <body>
-    <noscript>Precisa de activar o JavaScript para usar o Sonder.</noscript>
+    <!-- Splash Screen visível enquanto a app carrega -->
+    <div id="splash">
+      <img src="/assets/icon.png" alt="Sonder Logo" />
+      <div class="brand">
+        <span class="s">S</span><span class="onder">onder</span>
+      </div>
+      <div class="loader"></div>
+    </div>
+
+    <div id="root"></div>
+
+    <script>
+      // Esconde o splash assim que o React renderiza
+      window.__hideSplash = function () {
+        const s = document.getElementById('splash');
+        if (s) {
+          s.classList.add('hidden');
+          setTimeout(() => s.remove(), 600);
+        }
+      };
+      // Fallback: esconde automaticamente após 4 segundos
+      setTimeout(window.__hideSplash, 4000);
+    </script>
 
     <!-- Registo do Service Worker PWA -->
     <script>
