@@ -6,6 +6,7 @@ import HomeScreen from '../screens/HomeScreen';
 import SearchScreen from '../screens/SearchScreen';
 import ChatScreen from '../screens/ChatScreen';
 import ProfileScreen from '../screens/ProfileScreen';
+import ShortsScreen from '../screens/ShortsScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -23,6 +24,7 @@ export default function AppNavigator() {
         <Stack.Screen name="Search" component={SearchScreen} />
         <Stack.Screen name="Chat" component={ChatScreen} />
         <Stack.Screen name="Profile" component={ProfileScreen} />
+        <Stack.Screen name="Shorts" component={ShortsScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

@@ -153,3 +153,25 @@ export async function fetchVideoComments(videoId, maxResults = 20) {
   }
 }
 
+/**
+ * Busca vídeos "Shorts" (duração curta) no YouTube.
+ */
+export async function fetchShorts(query = 'amapiano shorts') {
+  const url = `${SEARCH_URL}?part=snippet&q=${encodeURIComponent(query)}&type=video&videoDuration=short&maxResults=10&key=${API_KEY}`;
+  try {
+    const res  = await fetch(url);
+    const json = await res.json();
+    if (!json.items) return [];
+
+    return json.items.map((item) => ({
+      id:           item.id.videoId,
+      youtubeId:    item.id.videoId,
+      title:        item.snippet.title,
+      channel:      item.snippet.channelTitle,
+    }));
+  } catch (err) {
+    console.warn('[YouTubeAPI] Erro ao buscar Shorts:', err);
+    return [];
+  }
+}
+

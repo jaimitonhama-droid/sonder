@@ -160,7 +160,7 @@ export default function ActionBar({ likes = '2.4M', comments = '89.5K', shares =
         <View style={st.side}>
 
           {/* Botão de Shorts */}
-          <TouchableOpacity style={st.actionBtn} onPress={() => {}} activeOpacity={0.75}>
+          <TouchableOpacity style={st.actionBtn} onPress={() => navigation.navigate('Shorts')} activeOpacity={0.75}>
             <Ionicons name="flash-outline" size={30} color="#fff" />
             <Text style={st.count}>Shorts</Text>
           </TouchableOpacity>
