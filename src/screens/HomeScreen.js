@@ -127,20 +127,7 @@ export default function HomeScreen() {
         canNext={currentIdx !== -1 && currentIdx < displayVideos.length - 1}
       />
 
-      {/* CATEGORIAS FIXAS (Sticky) */}
-      <View style={st.bottomContent}>
-        <View style={st.sectionHeader}>
-          <Text style={st.sectionLabel}>
-            <Text style={st.sectionLabelBold}>A Passar</Text> em {activeCategory.charAt(0).toUpperCase() + activeCategory.slice(1)}
-          </Text>
-        </View>
-        <CategoryFilter
-          categories={CATEGORIES}
-          activeId={activeCategory}
-          onSelect={handleCategoryChange}
-        />
-        <View style={{ height: 10 }} />
-      </View>
+      {/* Categorias agora ficam dentro da FlatList para rolarem junto com os vídeos */}
 
       {/* ÁREA INFERIOR: COMENTÁRIOS OU FEED */}
       <View style={{ flex: 1 }}>
@@ -151,6 +138,21 @@ export default function HomeScreen() {
           />
         ) : (
           <FlatList
+            ListHeaderComponent={() => (
+              <View style={st.bottomContent}>
+                <View style={st.sectionHeader}>
+                  <Text style={st.sectionLabel}>
+                    <Text style={st.sectionLabelBold}>A Passar</Text> em {activeCategory.charAt(0).toUpperCase() + activeCategory.slice(1)}
+                  </Text>
+                </View>
+                <CategoryFilter
+                  categories={CATEGORIES}
+                  activeId={activeCategory}
+                  onSelect={handleCategoryChange}
+                />
+                <View style={{ height: 10 }} />
+              </View>
+            )}
             data={displayVideos}
             keyExtractor={(item) => item.id}
             numColumns={2}
@@ -181,12 +183,14 @@ export default function HomeScreen() {
       </View>
 
       {playingVideo && (
-        <ActionBar
-          likes={activeMeta?.likes || playingVideo?.likes || '0'}
-          comments={activeMeta?.comments || playingVideo?.comments || '0'}
-          shares={playingVideo?.shares || '0'}
-          onCommentsPress={() => setShowComments(!showComments)}
-        />
+        <View style={{ position: 'absolute', top: 0, bottom: 0, left: 0, right: 0, zIndex: 100, elevation: 100 }} pointerEvents="box-none">
+          <ActionBar
+            likes={activeMeta?.likes || playingVideo?.likes || '0'}
+            comments={activeMeta?.comments || playingVideo?.comments || '0'}
+            shares={playingVideo?.shares || '0'}
+            onCommentsPress={() => setShowComments(!showComments)}
+          />
+        </View>
       )}
     </View>
   );
