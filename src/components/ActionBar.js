@@ -159,16 +159,10 @@ export default function ActionBar({ likes = '2.4M', comments = '89.5K', shares =
         {/* ─── Lado direito: Guardar + Partilhar ─── */}
         <View style={st.side}>
 
-          {/* Guardar / Favorito */}
-          <TouchableOpacity style={st.actionBtn} onPress={handleSave} activeOpacity={0.75}>
-            <Animated.View style={{ transform: [{ scale: saveAnim }] }}>
-              <Ionicons
-                name={saved ? 'bookmark' : 'bookmark-outline'}
-                size={30}
-                color={saved ? '#FFD700' : '#fff'}
-              />
-            </Animated.View>
-            <Text style={[st.count, saved && { color: '#FFD700' }]}>Guardar</Text>
+          {/* Botão de Shorts */}
+          <TouchableOpacity style={st.actionBtn} onPress={() => {}} activeOpacity={0.75}>
+            <Ionicons name="flash-outline" size={30} color="#fff" />
+            <Text style={st.count}>Shorts</Text>
           </TouchableOpacity>
 
           {/* Partilhar */}
