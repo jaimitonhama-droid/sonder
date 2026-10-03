@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { View, FlatList, StyleSheet, Dimensions, Text, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import VideoPlayer from '../components/VideoPlayer';
@@ -13,12 +13,21 @@ export default function ShortsScreen({ navigation }) {
 
   useEffect(() => {
     async function load() {
-      const data = await fetchShorts('amapiano shorts');
+      const queries = ['music shorts', 'viral shorts', 'trending music shorts', 'funny shorts', 'danca shorts', 'hip hop shorts'];
+      const randomQuery = queries[Math.floor(Math.random() * queries.length)];
+      const data = await fetchShorts(randomQuery);
       setShorts(data);
       setLoading(false);
     }
     load();
   }, []);
+
+  const viewabilityConfig = useRef({ itemVisiblePercentThreshold: 50 }).current;
+  const onViewableItemsChanged = useRef(({ viewableItems }) => {
+    if (viewableItems.length > 0) {
+      setCurrentIndex(viewableItems[0].index);
+    }
+  }).current;
 
   const renderItem = ({ item, index }) => {
     const isPlaying = index === currentIndex;
@@ -55,10 +64,8 @@ export default function ShortsScreen({ navigation }) {
           renderItem={renderItem}
           pagingEnabled
           showsVerticalScrollIndicator={false}
-          onMomentumScrollEnd={(e) => {
-            const index = Math.round(e.nativeEvent.contentOffset.y / H);
-            setCurrentIndex(index);
-          }}
+          onViewableItemsChanged={onViewableItemsChanged}
+          viewabilityConfig={viewabilityConfig}
         />
       )}
     </View>
