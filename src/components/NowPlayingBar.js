@@ -76,12 +76,13 @@ export default function NowPlayingBar({
           isMuted={isMuted}
           isPlaying={isPlaying}
           seekTarget={seekTarget}
+          onPlayerStateChange={(playing) => setIsPlaying(playing)}
         />
         
         {/* OVERLAY INVISÍVEL PARA CLICAR NO VÍDEO E PAUSAR/TOCAR */}
         <Pressable 
           style={StyleSheet.absoluteFillObject}
-          onPress={() => setIsPlaying(!isPlaying)}
+          onPress={() => setIsPlaying(prev => !prev)}
         >
           {!isPlaying && (
             <View style={st.pauseOverlay}>

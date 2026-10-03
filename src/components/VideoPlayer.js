@@ -4,7 +4,7 @@ import ReactPlayer from 'react-player';
 
 const { width: windowWidth } = Dimensions.get('window');
 
-export default function VideoPlayer({ videoId, onEnd, onProgress, isMuted, isPlaying, seekTarget }) {
+export default function VideoPlayer({ videoId, onEnd, onProgress, isMuted, isPlaying, seekTarget, onPlayerStateChange }) {
   const iframeRef = React.useRef(null);
   const durationRef = React.useRef(0);
 
@@ -52,6 +52,10 @@ export default function VideoPlayer({ videoId, onEnd, onProgress, isMuted, isPla
           // Detecta fim do vídeo
           if (data.info.playerState === 0) {
             if (onEnd) onEnd();
+          }
+          // Sincroniza o estado real do player com o componente pai
+          if (data.info.playerState === 1 || data.info.playerState === 2) {
+            if (onPlayerStateChange) onPlayerStateChange(data.info.playerState === 1);
           }
         } else if (data.info === 0) {
           if (onEnd) onEnd();
